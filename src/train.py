@@ -35,10 +35,18 @@ import torch.nn as nn
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 state_dim = env.observation_space.shape[0]
 n_action = env.action_space.n 
-nb_neurons= 512
+nb_neurons= 250
 
 DQN = torch.nn.Sequential(nn.Linear(state_dim, nb_neurons),
                           nn.ReLU(),
+                          nn.Linear(nb_neurons, nb_neurons),
+                          nn.ReLU(), 
+                          nn.Linear(nb_neurons, nb_neurons),
+                          nn.ReLU(), 
+                          nn.Linear(nb_neurons, nb_neurons),
+                          nn.ReLU(), 
+                          nn.Linear(nb_neurons, nb_neurons),
+                          nn.ReLU(), 
                           nn.Linear(nb_neurons, nb_neurons),
                           nn.ReLU(), 
                           nn.Linear(nb_neurons, n_action)).to(device)
@@ -51,14 +59,14 @@ def greedy_action(network, state):
     
 # DQN config
 config = {'nb_actions': env.action_space.n,
-          'learning_rate': 0.001,
-          'gamma': 0.95,
+          'learning_rate': 0.005,
+          'gamma': 0.99,
           'buffer_size': 1000000,
           'epsilon_min': 0.01,
           'epsilon_max': 1.,
           'epsilon_decay_period': 10000,
-          'epsilon_delay_decay': 20,
-          'batch_size': 20}
+          'epsilon_delay_decay': 200,
+          'batch_size': 400}
 model = DQN
 
 class ProjectAgent:
@@ -142,7 +150,7 @@ class ProjectAgent:
     def load(self):
         self.model.load_state_dict(torch.load("DQN.pth"))
 
-#agent = ProjectAgent()
-#episode_return = agent.train(env, 50)
-#agent.save("DQN.pth")
+agent = ProjectAgent()
+episode_return = agent.train(env, 200)
+agent.save("DQN.pth")
 #end
