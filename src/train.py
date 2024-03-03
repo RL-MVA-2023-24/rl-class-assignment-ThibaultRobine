@@ -116,7 +116,7 @@ class ProjectAgent:
 
             # next transition
             step += 1
-            if done:
+            if done or trunc:
                 episode += 1
                 print("Episode ", '{:3d}'.format(episode), 
                       ", epsilon ", '{:6.2f}'.format(epsilon), 
@@ -142,5 +142,5 @@ class ProjectAgent:
         self.model.load_state_dict(torch.load("DQN.pth"))
 
 agent = ProjectAgent(config, DQN)
-episode_return = agent.train(env, 1)
+episode_return = agent.train(env, 10)
 agent.save("DQN.pth")
