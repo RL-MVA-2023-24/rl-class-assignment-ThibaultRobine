@@ -59,10 +59,12 @@ config = {'nb_actions': env.action_space.n,
           'epsilon_decay_period': 1000,
           'epsilon_delay_decay': 20,
           'batch_size': 20}
-    
+model = DQN
 
 class ProjectAgent:
-    def __init__(self, config, model):
+    def __init__(self):
+        self.model = model
+        self.config = config
         device = "cuda" if next(model.parameters()).is_cuda else "cpu"
         self.gamma = config['gamma']
         self.batch_size = config['batch_size']
@@ -73,7 +75,6 @@ class ProjectAgent:
         self.epsilon_stop = config['epsilon_decay_period']
         self.epsilon_delay = config['epsilon_delay_decay']
         self.epsilon_step = (self.epsilon_max-self.epsilon_min)/self.epsilon_stop
-        self.model = model 
         self.criterion = torch.nn.MSELoss()
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=config['learning_rate'])
     def gradient_step(self):
@@ -141,6 +142,6 @@ class ProjectAgent:
     def load(self):
         self.model.load_state_dict(torch.load("DQN.pth"))
 
-agent = ProjectAgent(config, DQN)
+agent = ProjectAgent()
 episode_return = agent.train(env, 10)
 agent.save("DQN.pth")
