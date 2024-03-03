@@ -229,7 +229,7 @@ class ProjectAgent:
     def load(self):
         self.model.load_state_dict(torch.load("DQN.pth",map_location=device))
 
-agent = ProjectAgent()
-episode_return, MC_avg_discounted_reward, MC_avg_total_reward, V_init_state = agent.train(env, 200)
-agent.save("DQN.pth")
+#agent = ProjectAgent()
+#episode_return, MC_avg_discounted_reward, MC_avg_total_reward, V_init_state = agent.train(env, 200)
+#agent.save("DQN.pth")
 #end
