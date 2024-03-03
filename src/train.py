@@ -148,9 +148,9 @@ class ProjectAgent:
         torch.save(self.model.state_dict(), path)
 
     def load(self):
-        self.model.load_state_dict(torch.load("DQN.pth"))
+        self.model.load_state_dict(torch.load("DQN.pth",torch_location=device))
 
-#agent = ProjectAgent()
-#episode_return = agent.train(env, 200)
-#agent.save("DQN.pth")
+agent = ProjectAgent()
+episode_return = agent.train(env, 50)
+agent.save("DQN.pth")
 #end
