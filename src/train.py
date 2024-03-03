@@ -56,7 +56,7 @@ config = {'nb_actions': env.action_space.n,
           'buffer_size': 1000000,
           'epsilon_min': 0.01,
           'epsilon_max': 1.,
-          'epsilon_decay_period': 1000,
+          'epsilon_decay_period': 10000,
           'epsilon_delay_decay': 20,
           'batch_size': 20}
 model = DQN
@@ -142,6 +142,6 @@ class ProjectAgent:
     def load(self):
         self.model.load_state_dict(torch.load("DQN.pth"))
 
-agent = ProjectAgent()
-episode_return = agent.train(env, 10)
-agent.save("DQN.pth")
+#agent = ProjectAgent()
+#episode_return = agent.train(env, 200)
+#agent.save("DQN.pth")
